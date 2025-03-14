@@ -1,32 +1,32 @@
 specVersion: v2
 specMinorVersion: 2
 meta:
-  name: ai-research-assistant
-  image: project-ai-research-assistant
+  name: llm-router
+  image: project-llm-router
   description: ""
   labels: []
   createdOn: "2024-12-06T19:19:11Z"
   defaultBranch: main
 layout:
-- path: docs/
+- path: assets/
   type: code
   storage: git
-- path: samples/
+- path: customize/
   type: code
   storage: git
-- path: services/
-  type: code
-  storage: git
-- path: shared/
-  type: code
-  storage: git
-- path: tests/
+- path: demo/
   type: code
   storage: git
 - path: launchable/
   type: code
   storage: git
-- path: frontend/
+- path: routers/
+  type: code
+  storage: git
+- path: src/
+  type: code
+  storage: git
+- path: workbench/
   type: code
   storage: git
 environment:
@@ -96,33 +96,13 @@ environment:
       name: ""
       target: ""
 execution:
-  apps:
-  - name: frontend
-    type: custom
-    class: webapp
-    start_command: PROXY_PREFIX=$PROXY_PREFIX python3 -m frontend
-    health_check_command: curl -f "http://localhost:7860/"
-    stop_command: pkill -f "^python3 -m frontend"
-    user_msg: ""
-    logfile_path: ""
-    timeout_seconds: 30
-    icon_url: ""
-    webapp_options:
-      autolaunch: true
-      port: "7860"
-      proxy:
-        trim_prefix: false
-      url: http://localhost:7860/
+  apps: []
   resources:
     gpu:
       requested: 0
     sharedMemoryMB: 0
   secrets:
-  - variable: ELEVENLABS_API_KEY
-    description: ""
-  - variable: NIM_KEY
-    description: ""
-  - variable: SENDER_EMAIL_PASSWORD
+  - variable: NVIDIA_API_KEY
     description: ""
   mounts:
   - type: project

@@ -47,7 +47,7 @@ environment:
             - name: jupyterlab
               type: jupyterlab
               class: webapp
-              start_command: jupyter lab --allow-root --port 8888 --ip 0.0.0.0 --no-browser --NotebookApp.base_url=\$PROXY_PREFIX --NotebookApp.default_url=/lab --NotebookApp.allow_origin='*'
+              start_command: jupyter lab --allow-root --port 8888 --ip 0.0.0.0 --no-browser --NotebookApp.base_url=\$PROXY_PREFIX --NotebookApp.default_url=/lab --NotebookApp.allow_origin='*' --FileContentsManager.checkpoints_kwargs="root_dir"="/tmp"
               health_check_command: '[ \$(echo url=\$(jupyter lab list | head -n 2 | tail -n 1 | cut -f1 -d'' '' | grep -v ''Currently'' | sed "s@/?@/lab?@g") | curl -o /dev/null -s -w ''%{http_code}'' --config -) == ''200'' ]'
               stop_command: jupyter lab stop 8888
               user_msg: ""
@@ -94,6 +94,18 @@ environment:
     compose_file_path: ""
 execution:
     apps:
+        - name: Download Routers
+          type: custom
+          class: process
+          start_command: make download
+          health_check_command: pgrep -f "^make download" >/dev/null
+          stop_command: pkill -f "^make download"
+          user_msg: ""
+          logfile_path: ""
+          timeout_seconds: 60
+          icon_url: ""
+          process_options:
+            wait_until_finished: true
         - name: Frontend
           type: custom
           class: webapp
@@ -102,7 +114,7 @@ execution:
           stop_command: pkill -f "^python3 /project/demo/app/app.py"
           user_msg: ""
           logfile_path: ""
-          timeout_seconds: 30
+          timeout_seconds: 60
           icon_url: ""
           webapp_options:
             autolaunch: true
@@ -117,6 +129,8 @@ execution:
     secrets:
         - variable: NVIDIA_API_KEY
           description: ""
+        - variable: NGC_CLI_API_KEY
+          description: NGC CLI API Key (does not start with "nvapi-")
     mounts:
         - type: project
           target: /project/

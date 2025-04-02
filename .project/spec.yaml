@@ -94,6 +94,18 @@ environment:
     compose_file_path: ""
 execution:
     apps:
+        - name: Initialize Project
+          type: custom
+          class: process
+          start_command: bash /project/workbench/init.sh
+          health_check_command: pgrep -f "^bash /project/workbench/init.sh" > /dev/null
+          stop_command: pkill -f "^bash /project/workbench/init.sh"
+          user_msg: ""
+          logfile_path: ""
+          timeout_seconds: 60
+          icon_url: ""
+          process_options:
+            wait_until_finished: true
         - name: Frontend
           type: custom
           class: webapp
@@ -110,18 +122,6 @@ execution:
             proxy:
                 trim_prefix: false
             url: http://localhost:7860/
-        - name: Initialize Project
-          type: custom
-          class: process
-          start_command: bash /project/workbench/init.sh
-          health_check_command: pgrep -f "^bash /project/workbench/init.sh" > /dev/null
-          stop_command: pkill -f "^bash /project/workbench/init.sh"
-          user_msg: ""
-          logfile_path: ""
-          timeout_seconds: 60
-          icon_url: ""
-          process_options:
-            wait_until_finished: true
     resources:
         gpu:
             requested: 0

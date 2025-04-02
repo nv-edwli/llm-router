@@ -1,11 +1,11 @@
 # Adjust perms for locally downloaded content
-chmod -R 775 /project/demo
-chmod -R 775 /project/routers
+chmod -R 775 demo
+chmod -R 775 routers
 
 # Download Routers Locally
-cd .. && make download
+make download
 
 # Configure API Key for Build Endpoints models
-python3 init.py
+python3 workbench/init.py
 
 exit 0

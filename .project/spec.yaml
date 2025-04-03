@@ -109,7 +109,7 @@ execution:
         - name: Frontend
           type: custom
           class: webapp
-          start_command: PROXY_PREFIX=$PROXY_PREFIX python3 -B /project/demo/app/app.py
+          start_command: PROXY_PREFIX=$PROXY_PREFIX python3 /project/demo/app/app.py
           health_check_command: curl -f "http://localhost:7860/"
           stop_command: pkill -f "^python3 /project/demo/app/app.py"
           user_msg: ""

@@ -1,5 +1,7 @@
+export PYTHONDONTWRITEBYTECODE=1
+
 # Download Routers Locally
-make download
+PYTHONDONTWRITEBYTECODE=1 make download
 
 # Configure API Key for Build Endpoints models
 python3 workbench/init.py

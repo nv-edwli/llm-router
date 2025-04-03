@@ -1,5 +1,8 @@
 import yaml
 import os
+import sys
+
+sys.dont_write_bytecode = True
 
 # Load the YAML file
 with open('/project/src/router-controller/config.yaml', 'r') as file:

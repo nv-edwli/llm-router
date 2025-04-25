@@ -72,6 +72,8 @@ Ensure you have satisfied the prerequisites for this Blueprint ([details](../REA
 
 1. When the compose services are running and ready, select **Frontend** under the Project Container of the Project Dashboard.
 
+  * A new browser window will automatically open with the frontend LLM Router chat interface. 
+
 <p align="center">
   <img src="static/5.png" style="width:60%;"/>
 </p>

@@ -92,4 +92,4 @@ For more details, see the main README [here](../README.md#llms).
 
 ## License
 
-This NVIDIA NVIDIA AI BLUEPRINT is licensed under the [Apache License, Version 2.0.](../LICENSE) This project will download and install additional third-party open source software projects and containers. Review the license terms of these open source projects before use.
+This NVIDIA AI BLUEPRINT is licensed under the [Apache License, Version 2.0.](../LICENSE) This project will download and install additional third-party open source software projects and containers. Review the license terms of these open source projects before use.

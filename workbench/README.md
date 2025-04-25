@@ -49,11 +49,11 @@ Ensure you have satisfied the prerequisites for this Blueprint ([details](../REA
 1. On the **Project Dashboard**, resolve the yellow unconfigured secrets warning by inputting your ``NVIDIA_API_KEY``.
 
 <p align="center">
-  <img src="static/1.png" />
+  <img src="static/1.png" style="width:50%;"/>
 </p>
 
 <p align="center">
-  <img src="static/2.png" />
+  <img src="static/2.png" style="width:50%;"/>
 </p>
 
 1. On the Project Dashboard, select **Initialize Project** under project container and wait for the process to complete.
@@ -61,25 +61,25 @@ Ensure you have satisfied the prerequisites for this Blueprint ([details](../REA
     * This process will download the router model from NGC and move your inputted API Key to the config file for the LLM Router blueprint.
 
 <p align="center">
-  <img src="static/3.png" />
+  <img src="static/3.png" style="width:50%;"/>
 </p>
 
 1. On the Project Dashboard, select **Start** under the Compose. The compose services may take several minutes to pull and build.
 
 <p align="center">
-  <img src="static/4.png" />
+  <img src="static/4.png" style="width:50%;"/>
 </p>
 
 1. When the compose services are running and ready, select **Frontend** under the Project Container of the Project Dashboard.
 
 <p align="center">
-  <img src="static/5.png" />
+  <img src="static/5.png" style="width:50%;"/>
 </p>
 
 1. You can now interact with the LLM Router Chatbot through its browser interface.
 
 <p align="center">
-  <img src="static/6.png" />
+  <img src="static/6.png" style="width:50%;"/>
 </p>
 
 ### Local Hosting

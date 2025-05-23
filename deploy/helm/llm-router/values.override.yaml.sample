@@ -39,7 +39,7 @@ routerServer:
       hostPath: "/path/to/your/model/repository"  # Replace with your model repository path
   command: ["tritonserver", "--log-verbose=1", "--model-repository=/model_repository"]
   service:
-    type: ClusterIP  # Changed from NodePort to ClusterIP for better security
+    type: ClusterIP
   shm_size: "8G"
 
 # Router Controller
@@ -50,7 +50,7 @@ routerController:
     tag: latest
     pullPolicy: IfNotPresent
   service:
-    type: ClusterIP  # Changed from NodePort to ClusterIP for better security
+    type: ClusterIP
 
 # App 
 app:
@@ -66,7 +66,7 @@ app:
       hostPath: "/path/to/your/app/directory"  # Replace with your app directory path
   command: ["python", "app.py"]
   service:
-    type: ClusterIP  # Changed from NodePort to ClusterIP for better security
+    type: ClusterIP  
 
 # Example endpoints when ingress is enabled:
 # - App: http://llm-router.local/app/

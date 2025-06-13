@@ -74,7 +74,7 @@ jobs:
       - name: Checkout Test repository
         uses: actions/checkout@v3
         with:
-          repository: 'bp-cicd-org/blueprint-github-test2'
+          repository: 'NVIDIA-AI-Blueprints/blueprint-github-test'
           token: ${{ secrets.BLUEPRINT_GITHUB_TEST }}
           path: blueprint-github-test2
           

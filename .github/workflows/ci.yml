@@ -78,7 +78,7 @@ jobs:
           token: ${{ secrets.BLUEPRINT_GITHUB_TEST }}
           path: blueprint-github-test2
           
-      - name: Install Poetry/Dependencies and execute test
+      - name: Install Poetry/Dependencies and Execute test
         run: |
           cd blueprint-github-test2
           curl -sSL https://install.python-poetry.org | python3 -          
@@ -87,12 +87,14 @@ jobs:
           rm -rf input/*
           cp ../result.html input/1_Deploy_LLM_Router.html
           ls -l input/
-          pytest -m llm_router --disable-warnings
+          pytest -m llm_router --disable-warnings --html=llm_router.html --capture=tee-sys 
                              
       - name: Upload the result notebook as artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: result-notebook
-          path: "result.html"
+          path: |
+             result.html
+             blueprint-github-test2/llm_router.html
           retention-days: 30

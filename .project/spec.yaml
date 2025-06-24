@@ -70,15 +70,15 @@ environment:
         package_manager_environment:
             name: ""
             target: ""
-    compose_file_path: ""
+    compose_file_path: deploy/workbench/docker-compose.yaml
 execution:
     apps:
-        - name: Initialize Project
+        - name: Initialize Routers
           type: custom
           class: process
-          start_command: bash /project/workbench/init.sh
-          health_check_command: pgrep -f "^bash /project/workbench/init.sh" > /dev/null
-          stop_command: pkill -f "^bash /project/workbench/init.sh"
+          start_command: bash /project/deploy/workbench/init.sh
+          health_check_command: pgrep -f "^bash /project/deploy/workbench/init.sh" > /dev/null
+          stop_command: pkill -f "^bash /project/deploy/workbench/init.sh"
           user_msg: ""
           logfile_path: ""
           timeout_seconds: 60

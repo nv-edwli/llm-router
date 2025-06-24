@@ -38,7 +38,7 @@ The key features of the LLM Router framework are:
 
 ## Get Started
 
-Ensure you have satisfied the prerequisites for this Blueprint ([details](../README.md#hardware-requirements)). 
+Ensure you have satisfied the prerequisites for this Blueprint ([details](../../README.md#hardware-requirements)). 
 
 ### Use Build Endpoints
 
@@ -88,8 +88,8 @@ Ensure you have satisfied the prerequisites for this Blueprint ([details](../REA
 
 You can customize your LLMs using the default configuration file for the blueprint. If you have a model running, replace the ``api_base`` and ``model`` fields in the configuration files for each ``llm`` you wish to customize and restart the Compose. 
 
-For more details, see the main README [here](../README.md#llms). 
+For more details, see the main README [here](../../README.md#llms). 
 
 ## License
 
-This NVIDIA AI BLUEPRINT is licensed under the [Apache License, Version 2.0.](../LICENSE) This project will download and install additional third-party open source software projects and containers. Review the license terms of these open source projects before use.
+This NVIDIA AI BLUEPRINT is licensed under the [Apache License, Version 2.0.](../../LICENSE) This project will download and install additional third-party open source software projects and containers. Review the license terms of these open source projects before use.

@@ -1,0 +1,120 @@
+# Global settings
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  storageClass: ""
+
+# API Keys for LLM models (will be stored as secrets)
+apiKeys:
+  nvidia_api_key: ""
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  hosts:
+    - host: llm-router.local
+      paths:
+        - path: /app(/|$)(.*)
+          pathType: ImplementationSpecific
+          service: app
+        - path: /router-controller(/|$)(.*)
+          pathType: ImplementationSpecific
+          service: router-controller
+        - path: /router-server(/|$)(.*)
+          pathType: ImplementationSpecific
+          service: router-server
+  tls: []
+  #  - secretName: llm-router-tls
+  #    hosts:
+  #      - llm-router.local
+
+# Router Server configuration
+routerServer:
+  enabled: true
+  image:
+    repository: router-server
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicas: 1
+  resources:
+    limits:
+      nvidia.com/gpu: 1
+      memory: "8Gi"
+    requests:
+      nvidia.com/gpu: 1
+      memory: "8Gi"
+  service:
+    type: ClusterIP
+    ports:
+      - name: http
+        port: 8000
+        targetPort: 8000
+      - name: grpc
+        port: 8001
+        targetPort: 8001
+      - name: metrics
+        port: 8002
+        targetPort: 8002
+  volumes:
+    modelRepository:
+      enabled: true
+      mountPath: /model_repository
+      hostPath: ""
+      persistentVolumeClaim:
+        claimName: ""
+  shm_size: "8G"
+
+# Router Controller configuration
+routerController:
+  enabled: true
+  image:
+    repository: router-controller
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicas: 1
+  resources:
+    limits:
+      memory: "1Gi"
+      cpu: "1"
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+  service:
+    type: ClusterIP
+    port: 8084
+    targetPort: 8084
+  config:
+    mountPath: /app
+    logLevel: info
+
+# App configuration (demo client)
+app:
+  enabled: true
+  image:
+    repository: llm-router-client
+    tag: app
+    pullPolicy: IfNotPresent
+  replicas: 1
+  resources:
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+  service:
+    type: ClusterIP
+    port: 8008
+    targetPort: 8008
+  volumes:
+    appDir:
+      enabled: true
+      mountPath: /app
+      hostPath: ""
+      persistentVolumeClaim:
+        claimName: "" 

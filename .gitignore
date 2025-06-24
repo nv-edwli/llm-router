@@ -70,3 +70,7 @@ prompt-task-and-complexity-classifier_vtask-llm-router/
 routers/*
 ngccli_linux.zip
 ngc-cli.md5
+
+# Helm chart override files
+values.override.yaml
+**/values.override.yaml

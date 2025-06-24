@@ -1,0 +1,64 @@
+{{- if .Values.routerController.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "llm-router.fullname" . }}-router-controller
+  labels:
+    {{- include "llm-router.labels" . | nindent 4 }}
+    app.kubernetes.io/component: router-controller
+spec:
+  replicas: {{ .Values.routerController.replicas }}
+  selector:
+    matchLabels:
+      {{- include "llm-router.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: router-controller
+  template:
+    metadata:
+      labels:
+        {{- include "llm-router.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: router-controller
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-router-controller
+          image: "{{ .Values.global.imageRegistry }}{{ .Values.routerController.image.repository }}:{{ .Values.routerController.image.tag }}"
+          imagePullPolicy: {{ .Values.routerController.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.routerController.service.targetPort }}
+              protocol: TCP
+          env:
+            - name: RUST_LOG
+              value: {{ .Values.routerController.config.logLevel | default "info" | quote }}
+            - name: CONFIG_PATH
+              value: {{ .Values.routerController.config.mountPath }}/config.yaml
+            - name: NVIDIA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "llm-router.fullname" . }}-api-keys
+                  key: nvidia_api_key
+          resources:
+            {{- toYaml .Values.routerController.resources | nindent 12 }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: {{ .Values.routerController.config.mountPath }}
+      {{- if .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.global.imagePullSecrets | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "llm-router.fullname" . }}-router-controller-config
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }} 

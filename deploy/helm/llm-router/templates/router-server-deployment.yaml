@@ -1,0 +1,80 @@
+{{- if .Values.routerServer.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "llm-router.fullname" . }}-router-server
+  labels:
+    {{- include "llm-router.labels" . | nindent 4 }}
+    app.kubernetes.io/component: router-server
+spec:
+  replicas: {{ .Values.routerServer.replicas }}
+  selector:
+    matchLabels:
+      {{- include "llm-router.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: router-server
+  template:
+    metadata:
+      labels:
+        {{- include "llm-router.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: router-server
+    spec:
+      containers:
+        - name: router-server
+          image: "{{ .Values.global.imageRegistry }}{{ .Values.routerServer.image.repository }}:{{ .Values.routerServer.image.tag }}"
+          imagePullPolicy: {{ .Values.routerServer.image.pullPolicy }}
+          command:
+            - "tritonserver"
+            - "--log-verbose=1"
+            - "--model-repository=/model_repository"
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+            - name: grpc
+              containerPort: 8001
+              protocol: TCP
+            - name: metrics
+              containerPort: 8002
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.routerServer.resources | nindent 12 }}
+          volumeMounts:
+            {{- if .Values.routerServer.volumes.modelRepository.enabled }}
+            - name: model-repository
+              mountPath: {{ .Values.routerServer.volumes.modelRepository.mountPath }}
+            {{- end }}
+          securityContext:
+            privileged: false
+            capabilities:
+              add:
+              - IPC_LOCK
+      {{- if .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.global.imagePullSecrets | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- if .Values.routerServer.volumes.modelRepository.enabled }}
+        - name: model-repository
+          {{- if .Values.routerServer.volumes.modelRepository.hostPath }}
+          hostPath:
+            path: {{ .Values.routerServer.volumes.modelRepository.hostPath }}
+          {{- else if .Values.routerServer.volumes.modelRepository.persistentVolumeClaim.claimName }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.routerServer.volumes.modelRepository.persistentVolumeClaim.claimName }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }} 

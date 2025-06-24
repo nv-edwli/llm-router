@@ -3,7 +3,7 @@
 This blueprint is for developers who want a quick start to set up a LLM Router solution with a path-to-production with NVIDIA NIM.
 
 > **Note**
-> This app runs in [NVIDIA AI Workbench](https://docs.nvidia.com/ai-workbench/user-guide/latest/overview/introduction.html). It's a free, lightweight developer platform that you can run on your own systems to get up and running with complex AI applications and workloads in a short amount of time. 
+> This blueprint runs in [NVIDIA AI Workbench](https://docs.nvidia.com/ai-workbench/user-guide/latest/overview/introduction.html). It's a free, lightweight developer platform that you can run on your own systems to get up and running with complex AI applications and workloads in a short amount of time. 
 
 > You may want to [**fork**](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) this repository into your own account before proceeding. Otherwise you won't be able to fully push any changes you make because this NVIDIA-owned repository is **read-only**.
 
@@ -46,7 +46,7 @@ Ensure you have satisfied the prerequisites for this Blueprint ([details](../../
 
 1. **Clone** the project with URL: https://github.com/NVIDIA-AI-Blueprints/llm-router
 
-1. On the **Project Dashboard**, resolve the yellow unconfigured secrets warning by inputting your ``NVIDIA_API_KEY``.
+1. On the **Project Dashboard**, resolve the yellow unconfigured secrets warning by inputting your ``NVIDIA_API_KEY`` and ``NGC_CLI_API_KEY``.
 
 <p align="center">
   <img src="static/1.png" style="width:60%;"/>
@@ -56,9 +56,9 @@ Ensure you have satisfied the prerequisites for this Blueprint ([details](../../
   <img src="static/2.png" style="width:60%;"/>
 </p>
 
-1. On the Project Dashboard, select **Initialize Project** under project container and wait for the process to complete.
+1. On the Project Dashboard, select **Initialize Routers** under project container and wait for the process to complete.
 
-    * This process will download the router model from NGC and move your inputted API Key to the config file for the LLM Router blueprint.
+    * This process will download the router models from NGC for the LLM Router blueprint.
 
 <p align="center">
   <img src="static/3.png" style="width:60%;"/>
@@ -86,7 +86,9 @@ Ensure you have satisfied the prerequisites for this Blueprint ([details](../../
 
 ### Local Hosting
 
-You can customize your LLMs using the default configuration file for the blueprint. If you have a model running, replace the ``api_base`` and ``model`` fields in the configuration files for each ``llm`` you wish to customize and restart the Compose. 
+You can customize your LLMs using the default configuration file for the blueprint. If working in AI Workbench, you can edit the configuration section in the ``deploy/workbench/docker-compose.yaml`` file. These configurations override the configuration file that gets mounted by default. If working outside of AI Workbench, you can edit the configuration file directly at ``src/router-controller/config.yaml``. 
+
+If you have a model running locally you would like to use, replace the ``api_base`` and ``model`` fields in the configuration for each ``llm`` you wish to customize and restart the Compose. 
 
 For more details, see the main README [here](../../README.md#llms). 
 

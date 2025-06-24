@@ -29,7 +29,7 @@ The key features of the LLM Router framework are:
 
 | :exclamation: Important |
 | :-----------------------|
-| Users running this blueprint with [NVIDIA AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) should skip to the quickstart section [here](workbench/README.md#get-started)! |
+| Users running this blueprint with [NVIDIA AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) should skip to the quickstart section [here](deploy/workbench/README.md#get-started)! |
 
 After meeting the pre-requisites follow these steps.
 
